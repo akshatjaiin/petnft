@@ -1,0 +1,35 @@
+{% extends "petapp/base.html" %}
+
+{% block title %}Create Pet{% endblock %}
+
+
+{% block body %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4>Create Pet Profile</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ pet_form.as_p }}
+                        <button type="submit" class="btn btn-primary">Add Pet</button>
+                    </form>
+
+                    {% if pet_form.non_field_errors %}
+                        <div class="alert alert-danger mt-3">{{ pet_form.non_field_errors }}</div>
+                    {% endif %}
+
+                    {% for field in pet_form %}
+                        {% for error in field.errors %}
+                            <div class="alert alert-danger mt-2">{{ error }}</div>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

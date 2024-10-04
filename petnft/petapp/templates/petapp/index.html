@@ -1,0 +1,31 @@
+<!-- index.html -->
+{% extends 'petapp/base.html' %}
+
+{% block title %}Home - Pet Dating App{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <h2 class="mt-3 mb-3">Find Your Pet Match!</h2>
+        <div id="card-stack" class="card-stack">
+            {% for pet in pets %}
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="{{ pet.image.url }}" class="img-fluid rounded-start" alt="{{ pet.name }}">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ pet.name }}</h5>
+                            <p class="card-text">{{ pet.description }}</p>
+                            <p class="card-text"><small class="text-muted">{{ pet.category }}</small></p>
+                            <!-- Add more details as needed -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

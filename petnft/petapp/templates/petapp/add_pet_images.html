@@ -1,0 +1,22 @@
+{% extends "petapp/base.html" %}
+
+{% block content %}
+  <h2>Add Images for {{ pet.name }}</h2>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Add Image</button>
+  </form>
+  <h3>Existing Images</h3>
+  <ul>
+    {% for image in pet.images.all %}
+      <li>
+        {% if image.image %}
+          <img src="{{ image.image.url }}" alt="{{ image.name }}">
+        {% endif %}
+        <p>{{ image.name }}</p>
+        <p>{{ image.description }}</p>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

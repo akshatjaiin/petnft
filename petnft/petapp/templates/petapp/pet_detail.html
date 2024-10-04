@@ -1,0 +1,22 @@
+{% extends "petapp/base.html" %}
+
+{% block content %}
+  <h2>{{ pet.name }}</h2>
+  <p>Description: {{ pet.description }}</p>
+  <p>Breed: {{ pet.breed }}</p>
+  <p>Category: {{ pet.category.category_name }}</p>
+  <p>Date of Birth: {{ pet.dob }}</p>
+  <p>Owner: {{ pet.owner.username }}</p>
+  <h3>Images</h3>
+  <ul>
+    {% for image in pet.images.all %}
+      <li>
+        {% if image.image %}
+          <img src="{{ image.image.url }}" alt="{{ image.name }}">
+        {% endif %}
+        <p>{{ image.name }}</p>
+        <p>{{ image.description }}</p>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

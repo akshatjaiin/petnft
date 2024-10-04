@@ -1,0 +1,35 @@
+<!-- profile.html -->
+{% extends 'petapp/base.html' %}
+
+{% block title %}Profile - Pet Dating App{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <div class="card mt-3">
+            <div class="card-body">
+                <h2 class="card-title">Profile</h2>
+                <hr>
+                <div class="row">
+                    <div class="col-md-4">
+                        {% if user.profile_image %}
+                            <img src="{{ user.profile_image.url }}" class="img-fluid rounded-circle" alt="Profile Picture">
+                        {% else %}
+                            <div class="text-center">
+                                <span class="placeholder-img"><svg xmlns="http://www.w3.org/2000/svg" fill="#DDD" width="100" height="100" viewBox="0 0 338 338">
+                              <path d="m169,.5a169,169 0 1,0 2,0zm0,86a76,76 0 1 1-2,0zM57,287q27-35 67-35h92q40,0 67,35a164,164 0 0,1-226,0"/>
+                            </svg></span>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-8">
+                        <h3>{{ user.username }}</h3>
+                        <p>Email: {{ user.email }}</p>
+                        <!-- Add more profile details here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

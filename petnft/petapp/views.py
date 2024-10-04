@@ -9,6 +9,7 @@ from .forms import CustomUserCreationForm, CustomUserChangeForm, PetForm, PetIma
 from .models import User, Pet, PetPost
 
 # Home View
+@login_required
 def index(request):
     if request.user.is_authenticated:
         return render(request, "petapp/index.html")

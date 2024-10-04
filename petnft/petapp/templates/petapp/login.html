@@ -1,6 +1,11 @@
-{% extends "petapp/base.html" %}
-
-{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+</head>
+<body>
   <h2>Login</h2>
   {% if message %}
     <p style="color:red;">{{ message }}</p>
@@ -9,8 +14,16 @@
     {% csrf_token %}
     <label for="username">Username:</label>
     <input type="text" name="username" id="username">
+    <br>
     <label for="password">Password:</label>
     <input type="password" name="password" id="password">
+    <br>
     <button type="submit">Login</button>
+    <br>
+    <br>
+    <h6>Create a account </h6>
+    <a href="{% url 'petapp:register' %}">register</a>
   </form>
-{% endblock %}
+
+</body>
+</html>

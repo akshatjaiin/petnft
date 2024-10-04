@@ -5,75 +5,80 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import CustomUserCreationForm, CustomUserChangeForm, PetForm, PetImageForm
+from .forms import  CustomUserChangeForm, PetForm, PetImageForm
 from .models import User, Pet, PetPost
 
 # Home View
-@login_required
 def index(request):
+    return render(request, "petapp/index.html")
     if request.user.is_authenticated:
         return render(request, "petapp/index.html")
     else:
         return HttpResponseRedirect(reverse("petapp:register"))
-
-# Login View
-def login(request):
+def login_view(request):
     if request.method == "POST":
+        # Get username and password from the form
         username = request.POST["username"]
         password = request.POST["password"]
+        
+        # Attempt to authenticate the user
         user = authenticate(request, username=username, password=password)
+        print(f"{username} and {password}")
+        print(f'user {user}')
+
+        # Check if authentication was successful
         if user is not None:
-            login(request, user)
-            return HttpResponseRedirect(reverse("index"))
+            login(request, user)  # login() requires both request and user objects
+            return HttpResponseRedirect(reverse("petapp:index"))
         else:
+            # If authentication fails, return the form with an error message
             return render(request, "petapp/login.html", {
                 "message": "Invalid username and/or password."
             })
-    
-    return render(request, "petapp/login.html")
+    else:
+        return render(request, "petapp/login.html")
 
-
-# Logout View
 def logout_view(request):
     logout(request)
-    return HttpResponseRedirect(reverse("index"))
+    return HttpResponseRedirect(reverse("petapp:index"))
 
-
-# User Registration View
 def register(request):
-    if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST, request.FILES)
-        if form.is_valid():
-            try:
-                user = form.save()
-                login(request, user)
-                messages.success(request, 'Registration successful.')
-                return redirect('index')
-            except IntegrityError:
-                messages.error(request, 'A user with this username already exists. try to login')
-        else:
-            messages.error(request, 'There was an error with your submission. Please check the form for errors.')
+    if request.method == "POST":
+        # Extract form data
+        username = request.POST["username"]
+        email = request.POST["email"]
+        password = request.POST["password"]
+        confirmation = request.POST["confirmation"]
+
+        # Ensure password matches confirmation
+        if password != confirmation:
+            return render(request, "petapp/register.html", {
+                "message": "Passwords must match."
+            })
+
+        # Attempt to create a new user
+        try:
+            user = User.objects.create_user(username, email, password)
+            print(f"user saved .. {username} {email} {password}")
+            user.save()  # Save user to the database
+            print('saved user...')
+
+            # Log the user in after successful registration
+            login(request, user)  # login() requires the request and user object
+            print("user login success ... ")
+
+            # Redirect to the index page
+            return HttpResponseRedirect(reverse("petapp:index"))
+
+        except IntegrityError:
+            # Handle the case when the username is already taken
+            return render(request, "petapp/register.html", {
+                "message": "Username already taken."
+            })
+
     else:
-        form = CustomUserCreationForm()
-
-    return render(request, 'petapp/register.html', {'form': form})
-
-
-
-
-# User Profile Edit View
-@login_required
-def edit_profile(request):
-    if request.method == 'POST':
-        form = CustomUserChangeForm(request.POST, request.FILES, instance=request.user)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Profile updated successfully.')
-            return redirect('profile')
-    else:
-        form = CustomUserChangeForm(instance=request.user)
-    return render(request, 'petapp/edit_profile.html', {'form': form})
-
+        # Render the registration form
+        return render(request, "petapp/register.html")
 
 # User Profile View
 @login_required
@@ -112,6 +117,12 @@ def adopt(request):
 
 @login_required
 def swipe(request):
+    return render(request, 'petapp/swipe.html', {
+        'pet': pet,
+        })
+
+@login_required
+def edit_profile(request):
     return render(request, 'petapp/swipe.html', {
         'pet': pet,
         })

@@ -13,6 +13,12 @@ urlpatterns = [
     path('addPet', views.create_pet, name='add_pet'),
     path('adopt', views.adopt, name='adopt'),
     path('swipe', views.swipe, name='swipe'),
+    path('market', views.market, name='marketplace'),
+    path('chat', views.chat, name='chat'),
+    path('daycare', views.daycare, name='daycare'),
+    path('customize', views.customize, name='customize'),
+    path('settings', views.settings, name='settings'),
+    path('petstore', views.petstore, name='petstore'),
     path('pets/<int:pet_id>/', views.pet_detail, name='pet_detail'),
 
 ]

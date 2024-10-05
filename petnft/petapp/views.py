@@ -125,3 +125,38 @@ def edit_profile(request):
     return render(request, 'petapp/swipe.html', {
         'pet': pet,
         })
+
+@login_required
+def market(request):
+    return render(request, 'petapp/market.html', {
+        'pet': 'petsnft',
+        })
+
+@login_required
+def chat(request):
+    return render(request, 'petapp/chat.html', {
+        'pet': 'petsnft',
+        })
+@login_required
+def customize(request):
+    return render(request, 'petapp/chat.html', {
+        'pet': 'petsnft',
+        })
+
+@login_required
+def daycare(request):
+    return render(request, 'petapp/chat.html', {
+        'pet': 'petsnft',
+        })
+
+@login_required
+def petstore(request):
+    return render(request, 'petapp/chat.html', {
+        'pet': 'petsnft',
+        })
+
+@login_required
+def settings(request):
+    return render(request, 'petapp/settings.html', {
+        'settings': 'settings',
+        })

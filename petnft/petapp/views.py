@@ -10,7 +10,6 @@ from .models import User, Pet, PetPost
 
 # Home View
 def index(request):
-    return render(request, "petapp/index.html")
     if request.user.is_authenticated:
         return render(request, "petapp/index.html")
     else:
@@ -20,7 +19,7 @@ def login_view(request):
         # Get username and password from the form
         username = request.POST["username"]
         password = request.POST["password"]
-        
+        print(f"{username} and {password}") 
         # Attempt to authenticate the user
         user = authenticate(request, username=username, password=password)
         print(f"{username} and {password}")
